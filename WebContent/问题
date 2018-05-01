@@ -1,0 +1,20 @@
+把数据库表都删了重新生成 
+@Id
+@GeneratedValue
+会报错
+
+生成随机数
+Math.random() 生成0-1的小数 
+指定范围的整数  Math.random()*(大数-小数)+小数     强转
+
+代码重复可以使用模板设计模式
+如  hibernateTemplate  spring orm包中
+hibernateTemplate 需要注入sessionFactory
+
+分页查询
+setFirstResult  (当前页-1)*页面展示条数
+setMaxResults  为页面展示数据条数
+
+使用请求转发提交表单时会报错
+使用重定向
+

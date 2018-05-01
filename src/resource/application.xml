@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+<import resource="classpath:connection.xml"/>
+
+    <bean id="helloService" class="com.training.service.HelloService">
+    </bean>
+	
+	
+	<bean id="stuDao" class="com.training.dao.impl.StudentDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+	
+	<bean id="studentService" class="com.training.service.impl.StudentServiceImpl">
+		<property name="studentDao" ref="stuDao"></property>
+		<property name="convert" ref="studentConvert"></property>
+	</bean>
+	
+	<bean id="studentConvert" class="com.training.converter.StudentConvert"></bean>
+	
+	<bean id="log" class="com.training.aspect.LogAspect"></bean>
+	
+	<bean id="userServiceImpl" class="com.training.service.impl.UserServiceImpl">
+		<property name="userDao" ref="userDaoImpl"></property>
+		<property name="userModelConvert" ref="userModelConvert"></property>
+	</bean>
+	
+	<bean id="userDaoImpl" class="com.training.dao.impl.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+	
+	<bean id="userModelConvert" class="com.training.converter.UserModelConvert"></bean>
+	
+<aop:config>
+    <aop:aspect id="logAspect" ref="log">
+    	<aop:around method="aroundABC" pointcut-ref="pointCut"/>
+    	<aop:pointcut expression="execution(* com.training.service.*.*(..))" id="pointCut"/>
+    </aop:aspect>
+</aop:config>
+
+</beans>
